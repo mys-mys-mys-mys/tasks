@@ -6,6 +6,7 @@ class ConnectionWork:
     def __init__(self):
         self.conn_dict = get_connection_info()
         self.default_database = "dorms"
+        self.views = ('rooms_count_students_view','smallest_avg_age','largest_age_diff','rooms_with_diff_sex')
 
     def schema_initialisation(self):
         conn = connection.MySQLConnection(**self.conn_dict)
@@ -104,25 +105,13 @@ class ConnectionWork:
                 )
                 conn.commit()
 
-    def _get_info_for_download(self,view_name):
+    def get_info_for_download(self, view_index):
         conn_dict = self.conn_dict | {'database': self.default_database}
         with connection.MySQLConnection(**conn_dict) as conn:
             with conn.cursor(dictionary=True) as cursor_obj:
                 cursor_obj.execute(
-                    f"SELECT * FROM {view_name}")
+                    f"SELECT * FROM {self.views[view_index]}")
                 rows = cursor_obj.fetchall()
         return rows
 
-    # Should've put views in a tuple and referred to them using indexes :p
-
-    def get_rooms_count_students(self):
-        return self._get_info_for_download('rooms_count_students_view')
-
-    def get_smallest_avg_age(self):
-        return self._get_info_for_download('smallest_avg_age')
-
-    def get_largest_age_diff(self):
-        return self._get_info_for_download('largest_age_diff')
-
-    def get_rooms_with_diff_sex(self):
-        return self._get_info_for_download('rooms_with_diff_sex')
+    # Put views in a tuple and referred to them using indexes :p

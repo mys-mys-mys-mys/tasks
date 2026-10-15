@@ -28,7 +28,7 @@ def upload_json():
 def export_to_json(rows, output_file):
     with open(output_file, 'w', encoding="utf-8") as f:
         json.dump(list(rows), f, indent=4, default=str)
-        # Alternative: load only one row into mem to avoid memory leaks
+        # Alternative: load only one row into mem to use less memory
 
 def export_to_xml(rows, root, item, output_file):
     root_el = ET.Element(root)

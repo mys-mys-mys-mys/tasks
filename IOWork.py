@@ -48,38 +48,30 @@ class CLI:
                 print("Not an available format to unload in. Possible options: json or xml.")
 
     def _choose_query(self, cw: connectionWork.ConnectionWork, format: str):
-        queries = {
-            "1": (
+        queries = (
                 "list of rooms and the number of students in each of them",
-                cw.get_rooms_count_students,
-            ),
-            "2": (
                 "5 rooms with the smallest average age of students",
-                cw.get_smallest_avg_age,
-            ),
-            "3": (
                 "5 rooms with the largest difference in the age of students",
-                cw.get_largest_age_diff,
-            ),
-            "4": (
-                "list of rooms where different-sex students live",
-                cw.get_rooms_with_diff_sex,
-            ),
-        }
+                "list of rooms where different-sex students live"
+        )
         output_path = f'./result{format}'
 
         print("Query results to download:")
-        for key, (description, _) in queries.items():
-            print(f"{key} - {description}")
+        for i in range(len(queries)):
+            print(f"{i + 1} - {queries[i]}")
 
         query = input().strip()
 
-        if query not in queries:
-            print("Not an available query number.")
+        try:
+            query = int(query)
+            if (1 > query) or (query > 4):
+                print("Not an available query number.")
+                return
+        except ValueError:
+            print("Not a number.")
             return
 
-        _, fetch_data = queries[query]
-        data = fetch_data()
+        data = cw.get_info_for_download(query - 1)
 
         print("Unload started...")
         if format == self.json_format:
