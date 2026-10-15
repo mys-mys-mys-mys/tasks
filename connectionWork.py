@@ -113,6 +113,8 @@ class ConnectionWork:
                 rows = cursor_obj.fetchall()
         return rows
 
+    # Should've put views in a tuple and referred to them using indexes :p
+
     def get_rooms_count_students(self):
         return self._get_info_for_download('rooms_count_students_view')
 
