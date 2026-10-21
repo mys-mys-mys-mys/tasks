@@ -2,9 +2,10 @@ from contextlib import contextmanager
 import mysql.connector
 from file_work import get_connection_info
 
+
 @contextmanager
 def get_cursor(database: str | None = "dorms", dictionary: bool = True):
-    """Yields a database cursor, handling transactions and cleanup automatically."""
+    # Yields a database cursor handling transactions and cleanup automatically
     conn_info = get_connection_info()
     if database:
         conn_info["database"] = database

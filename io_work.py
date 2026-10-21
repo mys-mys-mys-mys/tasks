@@ -1,12 +1,11 @@
 import connection_work
 import file_work
 from file_work import export_to_json, export_to_xml
+from views_queries import views_queries_dict
 
 class CLI:
-    def __init__(self):
-        #kill this first one
 
-        self.query_to_unload = 1
+    def __init__(self):
         self.json_format = '.json'
         self.xml_format = '.xml'
 
@@ -50,32 +49,23 @@ class CLI:
                 print("Not an available format to unload in. Possible options: json or xml.")
 
     def _choose_query(self, cw: connection_work.ConnectionWork, format: str):
-        queries = (
-                "list of rooms and the number of students in each of them",
-                "5 rooms with the smallest average age of students",
-                "5 rooms with the largest difference in the age of students",
-                "list of rooms where different-sex students live"
-        )
         output_path = f'data/result{format}'
-
-        print("Query results to download:")
-        for i in range(len(queries)):
-            print(f"{i + 1} - {queries[i]}")
-
+        # Output descriptions to corresponding views
+        print("Results to download:")
+        for i in range(len(views_queries_dict)):
+            # Gets values from dict into a list
+            descriptors = [*views_queries_dict.values()]
+            print(f"{i + 1} - {descriptors[i]}")
         query = input().strip()
-
         try:
-            query = int(query)
-            if (1 > query) or (query > 4):
+            query = int(query) - 1
+            if (0 > query) or (query > len(views_queries_dict)):
                 print("Not an available query number.")
                 return
         except ValueError:
             print("Not a number.")
             return
-        # конечное значение
-
-        data = cw.get_info_for_download(query - 1)
-
+        data = cw.get_info_for_download(query)
         print("Unload started...")
         if format == self.json_format:
            export_to_json(data, output_path)
