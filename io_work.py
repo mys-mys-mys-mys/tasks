@@ -9,12 +9,12 @@ class CLI:
         self.json_format = '.json'
         self.xml_format = '.xml'
 
-    command_list = ("Commands list:\n"
-                    "help - show command list\n"
-                    "students - path to students file\n"
-                    "rooms - path to the rooms file\n"
-                    "format - choose an output format and query to download\n"
-                    "q to quit")
+    command_list = ("""Commands list:\n
+                    help - show command list\n
+                    students - path to students file\n
+                    rooms - path to the rooms file\n
+                    format - choose an output format and query to download\n
+                    q to quit""")
 
     def run(self, cw : connection_work.ConnectionWork):
         print(self.command_list)
@@ -36,9 +36,9 @@ class CLI:
                     print("Unknown command. Type 'help' for options.")
 
     def _choose_format(self,cw : connection_work.ConnectionWork):
-        print("Input format to unload in:\n"
-              "xml - choose unloading info in xml format\n"
-              "json - choose unloading info in json format")
+        print("""Input format to unload in:\n
+              xml - choose unloading info in xml format\n
+              json - choose unloading info in json format""")
         unload_format = input().strip().lower()
         match unload_format:
             case "xml":
