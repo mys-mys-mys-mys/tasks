@@ -11,16 +11,16 @@ def get_connection_info():
     return connection_dict
 
 def get_students_file_path():
-    print(f"Students path: {os.path.abspath('./students.json')}")
+    print(f"Students path: {os.path.abspath('data/students.json')}")
 
 def get_rooms_file_path():
-    print(f"Rooms path: {os.path.abspath('./rooms.json')}")
+    print(f"Rooms path: {os.path.abspath('data/rooms.json')}")
 
 def upload_json():
-    with open('./students.json', 'r') as s:
+    with open('data/students.json', 'r') as s:
         students_data = json.load(s)
     print("Uploaded student information from json files.")
-    with open('./rooms.json', 'r') as s:
+    with open('data/rooms.json', 'r') as s:
         rooms_data = json.load(s)
     print("Uploaded room information from json files.")
     return rooms_data, students_data
@@ -30,7 +30,7 @@ def export_to_json(rows, output_file):
         json.dump(list(rows), f, indent=4, default=str)
         # Alternative: load only one row into mem to use less memory
 
-def export_to_xml(rows, root, item, output_file):
+def export_to_xml(rows : dict, root : str, item : str, output_file : str):
     root_el = ET.Element(root)
     tree = ET.ElementTree(root_el)
     for row in rows:

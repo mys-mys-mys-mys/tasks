@@ -1,9 +1,11 @@
-import connectionWork
-import fileWork
-from fileWork import export_to_json, export_to_xml
+import connection_work
+import file_work
+from file_work import export_to_json, export_to_xml
 
 class CLI:
     def __init__(self):
+        #kill this first one
+
         self.query_to_unload = 1
         self.json_format = '.json'
         self.xml_format = '.xml'
@@ -15,7 +17,7 @@ class CLI:
                     "format - choose an output format and query to download\n"
                     "q to quit")
 
-    def run(self, cw):
+    def run(self, cw : connection_work.ConnectionWork):
         print(self.command_list)
         while 1:
             command = input().strip().lower()
@@ -26,15 +28,15 @@ class CLI:
                     print("Quitting...")
                     break
                 case "students":
-                    fileWork.get_students_file_path()
+                    file_work.get_students_file_path()
                 case "rooms":
-                    fileWork.get_rooms_file_path()
+                    file_work.get_rooms_file_path()
                 case "format":
                     self._choose_format(cw)
                 case _:
                     print("Unknown command. Type 'help' for options.")
 
-    def _choose_format(self,cw : connectionWork.ConnectionWork):
+    def _choose_format(self,cw : connection_work.ConnectionWork):
         print("Input format to unload in:\n"
               "xml - choose unloading info in xml format\n"
               "json - choose unloading info in json format")
@@ -47,14 +49,14 @@ class CLI:
             case _:
                 print("Not an available format to unload in. Possible options: json or xml.")
 
-    def _choose_query(self, cw: connectionWork.ConnectionWork, format: str):
+    def _choose_query(self, cw: connection_work.ConnectionWork, format: str):
         queries = (
                 "list of rooms and the number of students in each of them",
                 "5 rooms with the smallest average age of students",
                 "5 rooms with the largest difference in the age of students",
                 "list of rooms where different-sex students live"
         )
-        output_path = f'./result{format}'
+        output_path = f'data/result{format}'
 
         print("Query results to download:")
         for i in range(len(queries)):
@@ -70,6 +72,7 @@ class CLI:
         except ValueError:
             print("Not a number.")
             return
+        # конечное значение
 
         data = cw.get_info_for_download(query - 1)
 
