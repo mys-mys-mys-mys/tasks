@@ -54,6 +54,7 @@ class CLI:
         print("Results to download:")
         for i in range(len(views_queries_dict)):
             # Gets values from dict into a list
+            # Not list, but iterable xd
             descriptors = [*views_queries_dict.values()]
             print(f"{i + 1} - {descriptors[i]}")
         query = input().strip()
